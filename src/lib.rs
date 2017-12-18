@@ -27,7 +27,7 @@ extern crate serde_derive;
 
 #[derive(Debug)]
 struct ProcError {
-    desc: &'static str
+    desc: &'static str,
 }
 
 
@@ -75,9 +75,11 @@ impl CMClient {
     pub fn new() -> Result<CMClient, Box<Error>> {
         let core = Core::new()?;
         let handle = core.handle();
-        let client = Client::configure().connector(HttpsConnector::new(4, &handle)?).build(&handle);
+        let client = Client::configure()
+            .connector(HttpsConnector::new(4, &handle)?)
+            .build(&handle);
 
-        Ok(CMClient{ core, client})
+        Ok(CMClient { core, client })
     }
 
     fn get_asset_info(&mut self, uri: &str) -> Result<RawAsset, Box<Error>> {
@@ -85,10 +87,7 @@ impl CMClient {
         let job = self.client.get(uri).and_then(|res| {
             res.body().concat2().and_then(move |body| {
                 let v: Vec<RawAsset> = serde_json::from_slice(&body).map_err(|e| {
-                    io::Error::new(
-                        io::ErrorKind::Other,
-                        e
-                    )
+                    io::Error::new(io::ErrorKind::Other, e)
                 })?;
                 Ok(v)
             })
@@ -106,7 +105,12 @@ impl CMClient {
         let price_usd: f64 = asset.price_usd.parse()?;
         let price_btc: f64 = asset.price_btc.parse()?;
 
-        Ok(Asset { id: asset.id, symbol: asset.symbol, price_usd, price_btc })
+        Ok(Asset {
+            id: asset.id,
+            symbol: asset.symbol,
+            price_usd,
+            price_btc,
+        })
     }
 
     // Get asset information from coinmarketcap
