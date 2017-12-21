@@ -1,6 +1,2 @@
 
-pub mod coinmarket {
-    // todo
-
-
-}
+pub mod rest_api;

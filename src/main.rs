@@ -1,7 +1,9 @@
 
 extern crate cryptoconv;
 
+
 use std::env;
+use cryptoconv::api;
 
 
 fn print_usage(prog_name: &str) {
@@ -10,9 +12,9 @@ fn print_usage(prog_name: &str) {
 
 
 // Print ratio of one cryptocurrency to another using both USD and BTC prices
-fn print_currency_rate(asset1: &cryptoconv::Asset, asset2: &cryptoconv::Asset) {
-    let ratio_usd = cryptoconv::currency_ratio_usd(&asset1, &asset2);
-    let ratio_btc = cryptoconv::currency_ratio_btc(&asset1, &asset2);
+fn print_currency_rate(asset1: &api::Asset, asset2: &api::Asset) {
+    let ratio_usd = api::currency_ratio_usd(&asset1, &asset2);
+    let ratio_btc = api::currency_ratio_btc(&asset1, &asset2);
     println!(
         "USD price ratio: 1 {} = {} {}",
         &asset1.symbol,
@@ -29,13 +31,13 @@ fn print_currency_rate(asset1: &cryptoconv::Asset, asset2: &cryptoconv::Asset) {
 
 
 // Print cryptocurrency fiat price (in USD)
-fn print_currency_price_usd(asset: &cryptoconv::Asset) {
+fn print_currency_price_usd(asset: &api::Asset) {
     println!("1 {} = {} USD", asset.symbol, asset.price_usd);
 }
 
 
 fn compare_currencies(currency_id1: &str, currency_id2: &str) {
-    let mut client = cryptoconv::CMClient::new().unwrap();
+    let mut client = api::CMClient::new().unwrap();
 
     let asset_result1 = client.get_asset(currency_id1);
     let asset_result2 = client.get_asset(currency_id2);
