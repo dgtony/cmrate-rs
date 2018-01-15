@@ -1,9 +1,9 @@
 
-extern crate cryptoconv;
+extern crate cmrate;
 
 
 use std::env;
-use cryptoconv::api;
+use cmrate::api;
 
 
 fn print_usage(prog_name: &str) {
