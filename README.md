@@ -3,6 +3,10 @@
 Rewrite of Haskell-based [utility](https://github.com/dgtony/cryptoconv-hs) in Rust. 
 Obtain cryptocurrency rates for the given pair from [coinmarketcap.com](https://coinmarketcap.com).
 
+## Install
+```
+cargo install
+```
 
 ## Usage
 
